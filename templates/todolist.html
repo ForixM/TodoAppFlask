@@ -1,0 +1,81 @@
+# todolist html
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h1>FlaskTODO</h1>
+    <h3>{{ utc_dt }}</h3>
+    <hr>
+    <div class="content">
+    <form method="post">
+        <p>
+            <b><label for="content">Todo content</label></b>
+        </p>
+        <p>
+            <input type="text" name="content"
+                placeholder="Todo Content"></input>
+        </p>
+
+        <p>
+            <b><label for="degree">Degree</label></b>
+        </p>
+        <p>
+            <input id="degree-0" name="degree" required type="radio" value="Important">
+            <label for="degree-0">Important</label>
+        </p>
+        <p>
+            <input id="degree-1" name="degree" required type="radio" value="Unimportant">
+            <label for="degree-1">Unimportant</label>
+        </p>
+        <button type="submit" name="create">Submit</button>
+    </form>
+    <hr>
+    <form method="post">
+        <fieldset>
+            <b>
+                {% if selected == 'Important' %}
+                    <input required type="radio" id="1" name="filter" value="Important" checked>
+                {% else %}
+                    <input required type="radio" id="1" name="filter" value="Important">
+                {% endif %}
+                <label for="1">Important</label>
+            </b>
+            <b>
+                {% if selected == 'Unimportant' %}
+                    <input required type="radio" id="2" name="filter" value="Unimportant" checked>
+                {% else %}
+                    <input required type="radio" id="2" name="filter" value="Unimportant">
+                {% endif %}
+                <label for="2">Unimportant</label>
+            </b>
+            <b>
+                {% if selected == 'anything' %}
+                    <input required type="radio" id="3" name="filter" value="anything" checked>
+                {% else %}
+                    <input required type="radio" id="3" name="filter" value="anything">
+                {% endif %}
+                <label for="3">Anything</label>
+            </b>
+            <b>
+                <input type="submit" name="ok" value="Filter">
+            </b>
+        </fieldset>
+    </form>
+    {% for todo in todos %}
+        <div class="todo">
+            <hr>
+            <p>{{ todo['content'] }} <i>({{ todo['degree']}})</i></p>
+{#            action="{{ url_for('delete', id=todo['_id']) }}"#}
+            <form method="POST" action="{{ url_for('delete', id=todo['_id']) }}">
+                <input type="submit" name="delete" value="Delete Todo"
+                       onclick="return confirm('Are you sure you want to delete this entry?')">
+            </form>
+            <form method="POST" action="{{ url_for('edit', id=todo['_id']) }}">
+                <input type="submit" name="edit" value="Edit Todo">
+            </form>
+        </div>
+    {% endfor %}
+
+    </div>
+
+{% endblock %}

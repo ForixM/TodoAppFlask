@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>TODO EDIT</h1>
+    <h3>{{ utc_dt }}</h3>
+    <form method="post">
+        <p>
+            <b><label for="content">Todo content</label></b>
+        </p>
+        <p>
+            <input type="text" name="content"
+                placeholder="Todo Content" value="{{ todo }}"></input>
+        </p>
+
+        <p>
+            <b><label for="degree">Degree</label></b>
+        </p>
+        <p>
+            {% if important %}
+                <input id="degree-0" name="degree" required type="radio" value="Important" checked>
+            {% else %}
+                <input id="degree-0" name="degree" required type="radio" value="Important">
+            {% endif %}
+            <label for="degree-0">Important</label>
+        </p>
+        <p>
+            {% if important %}
+                <input id="degree-1" name="degree" required type="radio" value="Unimportant">
+            {% else %}
+                <input id="degree-1" name="degree" required type="radio" value="Unimportant" checked>
+            {% endif %}
+            <label for="degree-1">Unimportant</label>
+        </p>
+        <button type="submit" name="edit">Edit</button>
+    </form>
+{% endblock %}
