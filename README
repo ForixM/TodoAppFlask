@@ -1,0 +1,14 @@
+TODO APP
+
+This web app have the porpose to create, edit and delete todo's.
+Each user have their own list of todo. They can mark them as important or unimportant.
+If ever a user has a lot of todo's entry, he can classify them in relation to their degree of importance.
+
+Development report:
+Two new features are added in top to those that already exist. An edit button to edit the information of a todo entry
+and a filter button to display only important todo, unimportant todo, or all todo.
+To handle the edit feature, a method have been created to handle this action. A form is used with POST method in order
+to retrieve an updated version of a todo entry.
+To handle the filter feature, a fieldset inside a form have been added to the html code. Then, the todolist() method
+have been modified in order to handle multiple POST source. For example, when the user click in 'create' button, code
+executed will be different to the 'ok' button ('ok' is the button that will confirm the filter choice).

@@ -65,12 +65,11 @@
         <div class="todo">
             <hr>
             <p>{{ todo['content'] }} <i>({{ todo['degree']}})</i></p>
-{#            action="{{ url_for('delete', id=todo['_id']) }}"#}
             <form method="POST" action="{{ url_for('delete', id=todo['_id']) }}">
                 <input type="submit" name="delete" value="Delete Todo"
                        onclick="return confirm('Are you sure you want to delete this entry?')">
             </form>
-            <form method="POST" action="{{ url_for('edit', id=todo['_id']) }}">
+            <form method="GET" action="{{ url_for('edit', id=todo['_id']) }}">
                 <input type="submit" name="edit" value="Edit Todo">
             </form>
         </div>

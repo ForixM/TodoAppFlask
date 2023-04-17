@@ -27,6 +27,7 @@ def index():
     return render_template('index.html')
 
 
+# This method will handle the registration of a client
 @app.route("/register/", methods=['post', 'get'])
 def register():
     message = ''
@@ -71,6 +72,7 @@ def about():
     return render_template('about.html')
 
 
+# This method will handle the login of a client
 @app.route("/login/", methods=["POST", "GET"])
 def login():
     message = 'Please login to your account'
@@ -100,6 +102,7 @@ def login():
     return render_template('login.html', message=message)
 
 
+# This method is a checker to see if a client is logged-in or not.
 @app.route('/logged_in/')
 def logged_in():
     if "email" in session:
@@ -109,6 +112,7 @@ def logged_in():
         return redirect(url_for("login"))
 
 
+# This method will handle the logout of an logged-in account
 @app.route("/logout/", methods=["POST", "GET"])
 def logout():
     if "email" in session:
@@ -128,18 +132,11 @@ def todolist():
     # Inside this if section, form submission will be processed
     if request.method == 'POST':
         # This part will handle the todo creation to the database
-        if 'edit' in request.form:
-            print(request.form)
-            print(request.data)
-            # return redirect(url_for('delete', id=))
-        if 'delete' in request.form:
-            print('delete')
         if 'create' in request.form:
             content = request.form['content']
             degree = request.form['degree']
             todos.insert_one({'content': content, 'degree': degree})
             test = todos.find_one({'content': content})
-            print(test)
         # This part will handle the filter display
         if 'ok' in request.form:
             checked = request.form['filter']
@@ -155,16 +152,21 @@ def todolist():
     all_todos = todos.find()
     return render_template('todolist.html', todos=all_todos, selected='anything')
 
+
+# This method is used to edit the informations of a TODO
 @app.route('/<id>/edit', methods=('GET', 'POST'))
 def edit(id):
     message = ''
     if "email" not in session:
+        # Will redirect if client is not logged-in
         return redirect(url_for("login"))
     if request.method == 'POST':
+        # Retrieve new information to update a todo entry
         content = request.form['content']
         degree = request.form['degree']
         todos.replace_one({"_id": ObjectId(id)}, {'content': content, 'degree': degree})
         return redirect(url_for('todolist'))
+    # Search for a todo with an given id in the link
     todo = todos.find_one({"_id": ObjectId(id)})
     return render_template('edit.html', important=(todo['degree'] == 'Important'), todo=todo['content'])
 
